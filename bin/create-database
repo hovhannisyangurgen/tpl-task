@@ -1,0 +1,5 @@
+#!/bin/bash
+
+PGPASSWORD=$PG_PASSWORD psql -U postgres -tc "SELECT 1 FROM pg_database WHERE datname = 'tpl_tasks'" \
+| grep -q 1 \
+|| PGPASSWORD=$PG_PASSWORD psql -U $PG_USER -c 'CREATE DATABASE tpl_tasks'
