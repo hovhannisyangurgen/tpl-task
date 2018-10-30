@@ -3,7 +3,7 @@ const { STRING, INTEGER, DATE, BOOLEAN } = Sequelize.DataTypes;
 
 module.exports = function (app) {
   const sequelizeClient = app.get('sequelizeClient');
-  const user = sequelizeClient.define('User', {
+  const user = sequelizeClient.define('users', {
     id : {
       type: INTEGER,
       primaryKey: true,
@@ -13,6 +13,9 @@ module.exports = function (app) {
       type: STRING,
       allowNull: false,
       unique: true,
+      validate: {
+        isEmail: true,
+      }
     },
     password: {
       type: STRING,
@@ -55,12 +58,12 @@ module.exports = function (app) {
     hooks: {
       beforeCount(options) {
         options.raw = true;
-      }
+      },
     }
   });
 
   user.associate = function (models) {
-    // user.hasOne(models.UserOrganizationXref);
+    user.hasMany(models.user_organization_xref);
   };
 
   return user;

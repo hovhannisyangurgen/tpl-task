@@ -3,7 +3,7 @@ const { INTEGER } = Sequelize.DataTypes;
 
 module.exports = function (app) {
   const sequelizeClient = app.get('sequelizeClient');
-  const usersOrganizationXref = sequelizeClient.define('UserOrganizationXref', {
+  const usersOrganizationXref = sequelizeClient.define('user_organization_xref', {
     id: {
       type: INTEGER,
       allowNull: false,
@@ -31,6 +31,8 @@ module.exports = function (app) {
   });
 
   usersOrganizationXref.associate = function (models) {
+    usersOrganizationXref.belongsTo(models.users);
+    usersOrganizationXref.belongsTo(models.organizations);
   };
 
   return usersOrganizationXref;

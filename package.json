@@ -24,7 +24,7 @@
     "test": "yarn run eslint && yarn run mocha",
     "eslint": "eslint src/. test/. --config .eslintrc.json",
     "dev": "nodemon src/",
-    "start": "yarn migrate && node src/",
+    "start": "yarn db:create && yarn migrate && node src/",
     "start:dev": "yarn db:create && yarn migrate && nodemon src/",
     "mocha": "mocha test/ --recursive --exit",
     "migrate": "sequelize db:migrate",

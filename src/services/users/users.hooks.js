@@ -41,14 +41,27 @@ module.exports = {
 
   after: {
     all: [ 
-      // Make sure the password field is never sent to the client
-      // Always must be the last hook
       protect('password')
     ],
     find: [],
     get: [],
     create: [
-      context => accountService(context.app).notifier('resendVerifySignup', context.result),
+      async (context) => {
+        accountService(context.app).notifier('resendVerifySignup', context.result);
+        const { organizationName } = context.arguments[0];
+        const sequelizeClient = context.app.get('sequelizeClient');
+        const { organizations, user_organization_xref } = sequelizeClient.models;
+        let organization = await organizations.find({ 
+          where: { name: organizationName }
+        });
+        if (!organization.id) {
+          organization = await organizations.create({ name: organizationName });
+        }
+        await user_organization_xref.create({
+          userId: context.result.id,
+          organizationId: organization.id
+        });
+      },
       removeVerification()
     ],
     update: [],

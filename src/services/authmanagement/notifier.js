@@ -34,7 +34,8 @@ module.exports = function(app) {
           from: process.env.FROM_EMAIL,
           to: user.email,
           subject: 'Confirm Signup',
-          html: 'Thanks for verifying your email'
+          html: `Thanks for verifying your email. This is your six-digit confirmation code 
+          ${Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000}`
         };
         return sendEmail(email);
 

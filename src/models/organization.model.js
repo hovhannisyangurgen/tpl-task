@@ -1,28 +1,42 @@
-// See http://docs.sequelizejs.com/en/latest/docs/models-definition/
-// for more of what you can do here.
 const Sequelize = require('sequelize');
-const DataTypes = Sequelize.DataTypes;
+const { INTEGER, STRING, DATE } = Sequelize;
 
 module.exports = function (app) {
   const sequelizeClient = app.get('sequelizeClient');
-  const organizations = sequelizeClient.define('Organization', {
-    text: {
-      type: DataTypes.STRING,
-      allowNull: false
+  const organization = sequelizeClient.define('organizations', {
+    id: {
+      type: INTEGER,
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    name: {
+      type: STRING,
+      allowNull: false,
+      unique: true,
+    },
+    createdAt: {
+      field: 'created_at',
+      type: DATE
+    },
+    updatedAt: {
+      field: 'updated_at',
+      type: DATE
     }
   }, {
     hooks: {
       beforeCount(options) {
         options.raw = true;
-      }
+      },
     }
   });
 
-  // eslint-disable-next-line no-unused-vars
-  organizations.associate = function (models) {
-    // Define associations here
-    // See http://docs.sequelizejs.com/en/latest/docs/associations/
+  organization.associate = function (models) {
+    organization.belongsToMany(models.users, {
+      through: models.user_organization_xref
+    });
+    organization.hasMany(models.user_organization_xref);
   };
 
-  return organizations;
+  return organization;
 };

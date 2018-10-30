@@ -8,24 +8,27 @@ This project uses [Feathers](http://feathersjs.com). An open source web framewor
 
 ## Getting Started
 
-Getting up and running is as easy as 1, 2, 3.
-
-1. Make sure you have [NodeJS](https://nodejs.org/) and [npm](https://www.npmjs.com/) installed.
+1. Make sure you have [NodeJS](https://nodejs.org/) and [yarn](https://yarnpkg.com/) installed.
 2. Install your dependencies
 
     ```
-    cd path/to/tpl-tasks; npm install
+    cd path/to/tpl-tasks; yarn
     ```
+3. Copy `config/default.example.json` as `default.json` and change credentials
 
-3. Start your app
+4. Start your app
 
     ```
-    npm start
+    PG_USER='<pg_username>' PG_PASSWORD='<pg_password>' yarn start
+    ```
+    or development mode
+    ```
+    PG_USER='<pg_username>' PG_PASSWORD='<pg_password>' yarn start:dev
     ```
 
 ## Testing
 
-Simply run `npm test` and all your tests in the `test/` directory will be run.
+Simply run `yarn test` and all your tests in the `test/` directory will be run.
 
 ## Scaffolding
 
@@ -42,12 +45,6 @@ $ feathers help                           # Show all commands
 ## Help
 
 For more information on all the things you can do with Feathers visit [docs.feathersjs.com](http://docs.feathersjs.com).
-
-## Changelog
-
-__0.1.0__
-
-- Initial release
 
 ## License
 
